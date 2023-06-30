@@ -1,0 +1,25 @@
+import React, { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+// import { FaTimesCircle } from 'react-icons/fa';
+
+const Budget= (props) => {
+
+    const { budget, expenses, dispatch, currency } = useContext(AppContext);
+
+    const totalExpenses = expenses.reduce((total, item) => {
+        return (total += item.cost);
+    }, 0);
+
+    const handleEditBudget = (e)=>{
+        if(e.target.value<totalExpenses) alert("Amount lower than amount spent so far")
+        else if (e.target.value> 20000) alert("Max budget allowed is 20,000")
+        else dispatch({type: "SET_BUDGET", payload: e.target.value})        
+    }
+   
+    return (
+        <div className='alert alert-secondary'>
+            <span>Budget: {currency} <input type='number' value={budget} onChange={handleEditBudget} style={{width:'100px'}}/></span>
+        </div>
+    );
+};
+export default Budget;
